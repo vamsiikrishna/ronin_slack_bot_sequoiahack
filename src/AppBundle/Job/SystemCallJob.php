@@ -23,6 +23,7 @@ class SystemCallJob extends ContainerAwareJob
         $host = $args['host'];
         $resp_url = $args['resp_url'];
         $command = $args['command'];
+        $command_str = $args['command_str'];
 
         $client = new Client([
             'base_uri' => 'http://httpbin.org',
@@ -30,9 +31,7 @@ class SystemCallJob extends ContainerAwareJob
             'timeout'  => 200.0,
         ]);
 
-
-
-        $process = new Process("$command $host");
+        $process = new Process($command_str);
 
         try {
             $process->mustRun();
@@ -42,11 +41,6 @@ class SystemCallJob extends ContainerAwareJob
         } catch (ProcessFailedException $e) {
             $resp =  $e->getMessage();
         }
-
-
-
-
-
 
         $response = $client->request('POST', $resp_url, [
             'json' => ['text' => $resp]

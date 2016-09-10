@@ -20,16 +20,28 @@ class InfoGatheringController extends Controller
      */
     public function WhatWebAction(Request $request)
     {
+
+        $data = $request->request->all();
         $data = $request->request->all();
         $host = $data['text'];
         $resp_url = $data['response_url'];
         $resque = $this->get('resque');
-        $job = new SystemCallJob();
 
+        $command = '/home/v/code/seq/WhatWeb/whatweb';
+
+        $command_str = "$command $host";
+
+
+        $job = new SystemCallJob();
         $job->args = array(
             'host'    => $host,
+            'resp_url' => $resp_url,
+            'command' => $command
         );
         $resque->enqueue($job);
+
+        $response = new Response("Will respond back with your results shortly....");
+        return $response;
 
     }
 
@@ -80,19 +92,22 @@ class InfoGatheringController extends Controller
         $data = $request->request->all();
         $host = $data['text'];
         $resp_url = $data['response_url'];
-
-
         $resque = $this->get('resque');
+
+        $command = 'nping';
+
+        $command_str = "$command $host";
+
 
         $job = new SystemCallJob();
         $job->args = array(
             'host'    => $host,
             'resp_url' => $resp_url,
-            'command' => 'nping'
+            'command' => $command
         );
         $resque->enqueue($job);
 
-        $response = new Response("Will respond back with your results");
+        $response = new Response("Will respond back with your results shortly....");
         return $response;
 
     }
