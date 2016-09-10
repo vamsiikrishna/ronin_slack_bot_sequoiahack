@@ -103,7 +103,8 @@ class InfoGatheringController extends Controller
         $job->args = array(
             'host'    => $host,
             'resp_url' => $resp_url,
-            'command' => $command
+            'command' => $command,
+            'command_string' => $command_str
         );
         $resque->enqueue($job);
 
