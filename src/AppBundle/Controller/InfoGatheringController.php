@@ -27,7 +27,7 @@ class InfoGatheringController extends Controller
         $resp_url = $data['response_url'];
         $resque = $this->get('resque');
 
-        $command = '/home/v/code/seq/WhatWeb/whatweb';
+        $command = 'whatweb';
 
         $command_str = "$command $host";
 
