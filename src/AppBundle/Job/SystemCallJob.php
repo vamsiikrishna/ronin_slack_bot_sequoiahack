@@ -23,7 +23,7 @@ class SystemCallJob extends ContainerAwareJob
         $host = $args['host'];
         $resp_url = $args['resp_url'];
         $command = $args['command'];
-        $command_str = $args['command_str'];
+        $command_str = $args['command_string'];
 
         $client = new Client([
             'base_uri' => 'http://httpbin.org',
