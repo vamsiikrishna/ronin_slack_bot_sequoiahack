@@ -17,11 +17,52 @@ class InfoGatheringController extends Controller
     /**
      * @Route("/whatweb", name="whatweb")
      */
-    public function whatWebAction(Request $request)
+    public function WhatWebAction(Request $request)
     {
         $data = $request->request->all();
         $host = $data['text'];
 
     }
+
+    /**
+     * @Route("/sslyze", name="sslyze")
+     */
+    public function SslYzeAction(Request $request)
+    {
+        $data = $request->request->all();
+        $host = $data['text'];
+
+    }
+
+    /**
+     * @Route("/dnsrecon", name="dnsrecon")
+     */
+    public function DnsReconAction(Request $request)
+    {
+        $data = $request->request->all();
+        $host = $data['text'];
+    }
+
+    /**
+     * @Route("/wafwoof", name="wafwoof")
+     */
+    public function WafWoofAction(Request $request)
+    {
+        $data = $request->request->all();
+        $host = $data['text'];
+    }
+
+    /**
+     * @Route("lbd", name="lbd")
+     */
+    public function LbdAction(Request $request)
+    {
+        $data = $request->request->all();
+        $host = $data['text'];
+    }
+
+
+
+
 
 }
