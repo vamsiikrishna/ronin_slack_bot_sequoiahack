@@ -7,6 +7,7 @@
  */
 
 namespace AppBundle\Controller;
+use AppBundle\Job\SystemCallJob;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,6 +22,14 @@ class InfoGatheringController extends Controller
     {
         $data = $request->request->all();
         $host = $data['text'];
+        $resp_url = $data['response_url'];
+        $resque = $this->get('resque');
+        $job = new SystemCallJob();
+
+        $job->args = array(
+            'host'    => $host,
+        );
+        $resque->enqueue($job);
 
     }
 
@@ -59,6 +68,33 @@ class InfoGatheringController extends Controller
     {
         $data = $request->request->all();
         $host = $data['text'];
+    }
+
+    /**
+     * @Route("/nping")
+     */
+    public function NpingAction(Request $request)
+    {
+        $data = $request->request->all();
+
+        $data = $request->request->all();
+        $host = $data['text'];
+        $resp_url = $data['response_url'];
+
+
+        $resque = $this->get('resque');
+
+        $job = new SystemCallJob();
+        $job->args = array(
+            'host'    => $host,
+            'resp_url' => $resp_url,
+            'command' => 'nping'
+        );
+        $resque->enqueue($job);
+
+        $response = new Response("Will respond back with your results");
+        return $response;
+
     }
 
 
