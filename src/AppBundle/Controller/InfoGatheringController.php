@@ -114,8 +114,8 @@ class InfoGatheringController extends Controller
 
     }
 
+
     /**
-     * @param Request $request
      * @Route("/tool")
      */
     public function ToolAction(Request $request)
