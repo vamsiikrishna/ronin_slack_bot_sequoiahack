@@ -29,7 +29,7 @@ class InfoGatheringController extends Controller
 
         $command = 'whatweb';
 
-        $command_str = "$command $host";
+        $command_str = "$command $host --colour=never";
 
 
         $job = new SystemCallJob();
