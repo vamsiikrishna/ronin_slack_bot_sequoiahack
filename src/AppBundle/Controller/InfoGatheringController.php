@@ -7,6 +7,7 @@
  */
 
 namespace AppBundle\Controller;
+use AppBundle\Job\DomainScanJob;
 use AppBundle\Job\SystemCallJob;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -171,6 +172,31 @@ class InfoGatheringController extends Controller
         curl_close($ch);
 
         return new Response($resp);
+
+    }
+
+    /**
+     * @Route("/scan")
+     */
+    public function ScanReportAction(Request $request)
+    {
+        $data = $request->request->all();
+        $data = $request->request->all();
+        $host = $data['text'];
+        $resp_url = $data['response_url'];
+        $resque = $this->get('resque');
+
+
+
+        $job = new DomainScanJob();
+        $job->args = array(
+            'host'    => $host,
+            'resp_url' => $resp_url,
+        );
+        $resque->enqueue($job);
+
+        $response = new Response("Your scan has been queued, bot will send your results shortly.. :)");
+        return $response;
 
     }
 
