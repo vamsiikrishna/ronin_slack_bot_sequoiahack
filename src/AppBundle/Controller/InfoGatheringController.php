@@ -8,6 +8,7 @@
 
 namespace AppBundle\Controller;
 use AppBundle\Job\DomainScanJob;
+use AppBundle\Job\RemoteCallJob;
 use AppBundle\Job\SystemCallJob;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -46,6 +47,32 @@ class InfoGatheringController extends Controller
         return $response;
 
     }
+
+    /**
+     * @ROute("/mtr")
+     */
+    public function MtrAction(Request $request)
+    {
+        $data = $request->request->all();
+        $host = $data['text'];
+        $resp_url = $data['response_url'];
+        $resque = $this->get('resque');
+
+        $job = new RemoteCallJob();
+        $job->args = array(
+            'host' => $host,
+            'resp_url' => $resp_url
+        );
+
+
+        $resque->enqueue($job);
+
+        $response = new Response("Will respond back with your results shortly....");
+        return $response;
+
+    }
+
+
 
     /**
      * @Route("/sslyze", name="sslyze")
