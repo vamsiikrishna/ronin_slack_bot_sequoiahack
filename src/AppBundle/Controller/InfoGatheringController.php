@@ -148,6 +148,15 @@ class InfoGatheringController extends Controller
             case 'whois':
                 $uri = 'whois';
                 break;
+            case 'mtr':
+                $uri = 'mtr';
+                break;
+            case 'ping':
+                $uri = 'nping';
+                break;
+            case 'geoip':
+                $uri = 'geoip';
+                break;
             default;
                 $uri = null;
                 break;
